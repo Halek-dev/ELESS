@@ -1,0 +1,211 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ *
+ * Design tokens — single source of truth, mirrors design-tokens.md.
+ * Tailwind theme references these via var(). No component ships a raw hex.
+ * ------------------------------------------------------------------ */
+:root {
+  /*
+   * Solid colours are stored as raw RGB channels so Tailwind can apply alpha
+   * modifiers to them (`bg-amber/25`). A var() holding a hex string silently
+   * ignores the modifier and renders at full opacity.
+   * Each channel token also gets a ready-to-use rgb() alias for plain CSS.
+   */
+  --bg-rgb: 11 13 16;
+  --bg-deep-rgb: 7 8 10;
+  --surface-rgb: 20 23 28;
+  --amber-rgb: 239 159 39;
+  --amber-hover-rgb: 242 174 71;
+  --amber-pressed-rgb: 217 142 30;
+  --amber-light-rgb: 250 199 117;
+  --on-amber-rgb: 65 36 2;
+  --teal-rgb: 29 158 117;
+  --teal-hover-rgb: 34 179 132;
+  --red-rgb: 226 75 74;
+  --text-rgb: 255 255 255;
+
+  /* Core surfaces */
+  --bg: rgb(var(--bg-rgb));
+  --bg-deep: rgb(var(--bg-deep-rgb));
+  --surface: rgb(var(--surface-rgb));
+  --surface-sunken: rgba(0, 0, 0, 0.25);
+  --glass-fill: rgba(255, 255, 255, 0.05);
+
+  /* Amber — the only accent */
+  --amber: rgb(var(--amber-rgb));
+  --amber-hover: rgb(var(--amber-hover-rgb));
+  --amber-pressed: rgb(var(--amber-pressed-rgb));
+  --amber-light: rgb(var(--amber-light-rgb));
+  --on-amber: rgb(var(--on-amber-rgb));
+
+  /* Support */
+  --teal: rgb(var(--teal-rgb));
+  --teal-hover: rgb(var(--teal-hover-rgb));
+  --red: rgb(var(--red-rgb));
+
+  /* Text on dark */
+  --text: rgb(var(--text-rgb));
+  --text-70: rgba(255, 255, 255, 0.7);
+  --text-55: rgba(255, 255, 255, 0.55);
+  --text-50: rgba(255, 255, 255, 0.5);
+  --text-40: rgba(255, 255, 255, 0.4);
+
+  /* Tints */
+  --amber-tint: rgba(239, 159, 39, 0.14);
+  --amber-border: rgba(239, 159, 39, 0.4);
+  --teal-tint: rgba(29, 158, 117, 0.16);
+  --red-tint: rgba(226, 75, 74, 0.08);
+
+  /* Hairlines */
+  --line: rgba(255, 255, 255, 0.1);
+  --line-soft: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  --scrim-photo: linear-gradient(
+    to top,
+    rgba(7, 8, 10, 0.96) 0%,
+    rgba(7, 8, 10, 0.55) 40%,
+    rgba(7, 8, 10, 0.15) 70%
+  );
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sora), system-ui, sans-serif;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Amber focus ring on every interactive element — never a browser default. */
+  :focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: var(--amber);
+    color: var(--on-amber);
+  }
+}
+
+@layer components {
+  /* Frosted glass surface recipe — always over photography/gradient. */
+  .glass {
+    background: var(--glass-fill);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--line);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Typographic tokens */
+  .kicker {
+    font-family: var(--font-sora), sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  .field-label {
+    font-family: var(--font-sora), sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-50);
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(
+      100deg,
+      #181c22 30%,
+      #242a32 50%,
+      #181c22 70%
+    );
+    background-size: 200% 100%;
+    animation: els-skel 1.4s ease-in-out infinite;
+  }
+
+  /* Amber floor-glow vignette under hero / gallery cars */
+  .floor-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      60% 40% at 50% 100%,
+      rgba(239, 159, 39, 0.18),
+      transparent 65%
+    );
+  }
+
+  .photo-scrim {
+    background: var(--scrim-photo);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Range input reset — themed thumb + track handled inline per component. */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Respect reduced-motion globally as a safety net. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
