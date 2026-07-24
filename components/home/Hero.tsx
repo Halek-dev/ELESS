@@ -22,9 +22,22 @@ export function Hero() {
           sizes="100vw"
           imgClassName="object-cover"
         />
-        {/* Legibility scrim + amber floor glow */}
-        <div className="absolute inset-0 photo-scrim" />
-        <div className="absolute inset-0 bg-gradient-to-r from-bg via-bg/70 to-transparent" />
+        {/*
+         * Legibility scrim. Mobile stacks copy *under* the photo, so it needs a
+         * vertical fade to solid --bg; desktop puts copy beside the photo, so it
+         * needs a horizontal one. A single horizontal gradient leaves mobile text
+         * sitting on the bright part of the image.
+         */}
+        <div
+          aria-hidden
+          className="absolute inset-0 lg:hidden"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(11,13,16,0.30) 0%, rgba(11,13,16,0.72) 26%, rgb(11,13,16) 46%)",
+          }}
+        />
+        <div className="absolute inset-0 hidden lg:block photo-scrim" />
+        <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-bg via-bg/70 to-transparent" />
         <div
           aria-hidden
           className="absolute inset-0"
@@ -35,14 +48,17 @@ export function Hero() {
         />
       </div>
 
-      <div className="mx-auto max-w-frame px-5 pt-32 sm:px-8 lg:px-section lg:pt-44">
+      {/* Copy sits below the photo on mobile (~35% down), beside it on desktop. */}
+      <div className="mx-auto max-w-frame px-5 pt-[32vh] sm:px-8 sm:pt-40 lg:px-section lg:pt-44">
         <motion.p
           className="kicker"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: EASE_OUT }}
         >
-          Lagos · Ibadan · Nationwide delivery
+          {/* display:none keeps the unused variant out of the a11y tree too */}
+          <span className="sm:hidden">Lagos · Ibadan</span>
+          <span className="hidden sm:inline">Lagos · Ibadan · Nationwide delivery</span>
         </motion.p>
 
         <motion.h1
@@ -54,15 +70,20 @@ export function Hero() {
           The right car, inspected and ready.
         </motion.h1>
 
-        <motion.p
+        <motion.div
           className="mt-6 max-w-[46ch] text-[16px] leading-relaxed text-text-70 lg:text-[17px]"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: EASE_OUT, delay: 0.16 }}
         >
-          Tokunbo family SUVs, Nigerian-used budget cars, trucks and premium imports — every one
-          road-checked before it reaches you.
-        </motion.p>
+          <p className="sm:hidden">
+            Tokunbo SUVs, budget cars, trucks and premium imports.
+          </p>
+          <p className="hidden sm:block">
+            Tokunbo family SUVs, Nigerian-used budget cars, trucks and premium imports — every one
+            road-checked before it reaches you.
+          </p>
+        </motion.div>
 
         <motion.div
           className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"

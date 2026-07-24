@@ -235,13 +235,13 @@ export function AutopayModal({
                     <div className="mt-4 grid grid-cols-2 gap-3">
                       <div className="rounded-control border border-line-soft bg-white/[0.03] p-4">
                         <p className="text-[13px] text-text-50">Monthly amount</p>
-                        <p className="mt-1 font-display text-[20px] font-extrabold text-amber tabular-nums">
+                        <p className="mt-1 font-display text-[18px] font-extrabold text-amber tabular-nums sm:text-[20px]">
                           {formatNaira(monthly)}
                         </p>
                       </div>
                       <div className="rounded-control border border-line-soft bg-white/[0.03] p-4">
                         <p className="text-[13px] text-text-50">Tenure</p>
-                        <p className="mt-1 font-display text-[20px] font-extrabold text-text tabular-nums">
+                        <p className="mt-1 whitespace-nowrap font-display text-[18px] font-extrabold text-text tabular-nums sm:text-[20px]">
                           {tenure} months
                         </p>
                       </div>

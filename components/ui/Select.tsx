@@ -24,6 +24,7 @@ export function Select({
   placeholder,
   className,
   buttonClassName,
+  labelClassName,
 }: {
   label?: string;
   options: SelectOption[];
@@ -32,6 +33,8 @@ export function Select({
   placeholder: string;
   className?: string;
   buttonClassName?: string;
+  /** e.g. "sr-only md:not-sr-only" to hide the label visually but keep its name. */
+  labelClassName?: string;
 }) {
   const id = useId();
   const [open, setOpen] = useState(false);
@@ -75,7 +78,7 @@ export function Select({
   return (
     <div className={cn("relative", className)}>
       {label && (
-        <label htmlFor={id} className="field-label mb-2 block">
+        <label htmlFor={id} className={cn("field-label mb-2 block", labelClassName)}>
           {label}
         </label>
       )}

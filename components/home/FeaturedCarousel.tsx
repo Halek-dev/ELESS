@@ -35,10 +35,11 @@ export function FeaturedCarousel() {
   return (
     <section className="mx-auto max-w-frame px-5 sm:px-8 lg:px-section">
       <div className="flex items-end justify-between gap-4">
-        <h2 className="font-display text-[30px] font-bold tracking-heading text-text sm:text-[36px]">
+        <h2 className="font-display text-[28px] font-bold tracking-heading text-text sm:text-[36px]">
           Featured vehicles
         </h2>
-        <div className="flex shrink-0 gap-2">
+        {/* Touch devices swipe the track, so the arrows are desktop-only. */}
+        <div className="hidden shrink-0 gap-2 sm:flex">
           <button
             type="button"
             aria-label="Previous vehicles"
